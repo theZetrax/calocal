@@ -4,6 +4,7 @@
  * @param {string} name Name of the food.
  * @param {Date} created_date Date of food consumed.
  * @param {number} calories Amount of calories of the food.
+ * @param {number} price Price of the food.
  * @param {string} userId Id of the user
  */
 
