@@ -6,14 +6,13 @@ import { User } from "@app/models/entity/User";
 import { UserAuthLogin, UserAuthSignup } from "@app/types/user";
 import HashPassword from "@app/utils/HashPassword";
 import GenerateToken from "@app/utils/GenerateToekn";
-import { UserToken } from "@app/models/entity/UserToken";
 
 const AuthRotuer = Router();
 
 AuthRotuer.post(
   "/login",
-  body("username", "Username is required"),
-  body("password", "Password is required"),
+  body("username", "Username is required").exists(),
+  body("password", "Password is required").exists(),
   async (req: Request, res: Response) => {
     const validationError = validationResult(req);
     if (!validationError.isEmpty())
@@ -33,24 +32,15 @@ AuthRotuer.post(
           message: "Username or password incorrect",
         });
 
-      let userToken = await getRepository(UserToken).findOne({ user });
-
-      if (!userToken) {
-        userToken = new UserToken();
-        userToken.user = user;
-      }
-
-      userToken.token = GenerateToken(user.username);
-
-      await getRepository(UserToken).save(userToken);
+      const token = GenerateToken(String(user.id));
 
       /** Provide the token, */
       return res.json({
         success: "user logged in successfully",
-        token: userToken.token,
+        token,
       });
     } catch (err) {
-      console.log({
+      console.log("[Auth Login]", {
         err,
       });
     }
@@ -112,6 +102,10 @@ AuthRotuer.post(
           }
         }
       }
+
+      console.error("[Auth SignUp]", {
+        err,
+      });
     }
 
     /** Response to show user has been created with this information */

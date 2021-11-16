@@ -1,8 +1,11 @@
 import { Request, Response, Router } from "express";
 import { getRepository } from "typeorm";
 import { User } from "@app/models/entity/User";
+import authMiddleware from "@app/middleware/auth";
 
 const UsersRouter = Router();
+
+UsersRouter.use(authMiddleware);
 
 UsersRouter.get("/", async (req: Request, res: Response) => {
   const users = await getRepository(User).find();
@@ -12,6 +15,7 @@ UsersRouter.get("/", async (req: Request, res: Response) => {
     data: {
       users,
     },
+    user: res.locals.user,
   });
 });
 
