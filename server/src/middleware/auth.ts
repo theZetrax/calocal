@@ -6,6 +6,8 @@ import ServerConfig from "@config/server.conf.json";
 import { User } from "@app/models/entity/User";
 import GenerateToken from "@app/utils/GenerateToekn";
 
+const USER_TOKEN = "user-token";
+
 const authMiddleware = async (
   req: Request,
   res: Response,
@@ -29,7 +31,7 @@ const authMiddleware = async (
 
   const newToken = GenerateToken(userId);
 
-  res.setHeader("token", newToken);
+  res.setHeader(USER_TOKEN, newToken);
 
   next();
 };

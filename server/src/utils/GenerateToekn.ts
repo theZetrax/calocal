@@ -8,6 +8,6 @@ import { sign } from "jsonwebtoken";
 import ServerConfig from "@config/server.conf.json";
 
 const GenerateToken = (payload: string) =>
-  sign({ user: payload }, ServerConfig.token, { expiresIn: "3600s" });
+  sign({ user: payload }, ServerConfig.token, { expiresIn: "30m" });
 
 export default GenerateToken;
