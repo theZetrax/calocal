@@ -14,5 +14,8 @@
     "ecmaVersion": 2015,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"]
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "strict": "error"
+  }
 }
