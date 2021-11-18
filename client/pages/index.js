@@ -3,6 +3,8 @@ import { Button } from 'antd'
 import { connect } from 'react-redux'
 import { updateFoodList } from '../redux/actions/user'
 import { useEffect } from 'react'
+import { GetAuthToken, USER_TOKEN } from '../lib/auth'
+import axios from 'axios'
 
 const Home = function (props) {
   const { foodList, updateFoodList } = props
@@ -10,12 +12,27 @@ const Home = function (props) {
   const handleClick = (e) => {
     e.preventDefault()
     updateFoodList()
+    console.log({
+      token: localStorage.getItem(USER_TOKEN),
+    })
   }
 
-  useEffect(function () {
-    console.log({
-      foodList,
-    })
+  useEffect(async function () {
+    try {
+      const response = await axios.get('/users', {
+        headers: {
+          Authorization: `Bearer ${GetAuthToken()}`,
+        },
+      })
+
+      console.log({
+        response,
+      })
+    } catch (err) {
+      console.log('Loading error', {
+        err,
+      })
+    }
   }, [])
 
   return (

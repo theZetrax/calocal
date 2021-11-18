@@ -1,10 +1,9 @@
-// import "../styles/globals.css";
+import { useEffect } from 'react'
 import 'antd/dist/antd.css'
-
-import { wrapper } from '../redux/store'
-
 import Head from 'next/head'
 import '../config/axios'
+
+import { wrapper } from '../redux/store'
 
 function MyApp({ Component, pageProps }) {
   return (

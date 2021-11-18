@@ -27,6 +27,8 @@ AuthRotuer.post(
         where: { username: body.username },
       });
 
+      if (typeof user === "undefined") res.sendStatus(404);
+
       if (user.password_hash !== HashPassword(body.password))
         return res.status(401).json({
           message: "Username or password incorrect",

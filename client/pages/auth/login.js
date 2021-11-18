@@ -1,16 +1,30 @@
-import { Form, Input, Button, Checkbox } from 'antd'
-import { Typography } from 'antd'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 import axios from 'axios'
 
-import { SetCookie } from '../../lib/cookie'
+// UI Imports
+import { Form, Input, Button, Checkbox } from 'antd'
+import { Typography } from 'antd'
+
+// Custom
+import { GetAuthToken, USER_TOKEN } from '../../lib/auth'
 
 const { Title } = Typography
 
 const LoginPage = () => {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (typeof GetAuthToken() !== 'undefined') router.push('/')
+  }, [])
+
   const onFinish = async (values) => {
     const { username, password } = values
 
     try {
+      setLoading(true)
       const response = await axios.post('/auth/login', {
         username,
         password,
@@ -20,18 +34,18 @@ const LoginPage = () => {
         response,
       })
 
-      SetCookie('')
+      // After login set the cookie
+      localStorage.setItem(USER_TOKEN, response.data['token'])
+      setLoading(false)
+
+      // On success
+      router.push('/')
     } catch (err) {
+      setLoading(false)
       console.error('Login failed', {
         err,
       })
     }
-  }
-
-  const onFinishError = (err) => {
-    console.log('Error Occured', {
-      err,
-    })
   }
 
   return (
@@ -42,7 +56,6 @@ const LoginPage = () => {
       initialValues={{ remember: true }}
       autoComplete="off"
       onFinish={onFinish}
-      onFinishFailed={onFinishError}
     >
       <br />
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
@@ -78,7 +91,15 @@ const LoginPage = () => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Link href="/auth/signup">
+          <Typography.Link>
+            Don't have an account? Create one here.
+          </Typography.Link>
+        </Link>
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+        <Button type="primary" htmlType="submit" loading={loading}>
           Login
         </Button>
       </Form.Item>
