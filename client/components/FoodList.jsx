@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Tabs } from 'antd'
 import { CalendarOutlined, ContainerOutlined } from '@ant-design/icons'
 import FoodListByRecent from './FoodListByRecent'
+import FoodListByRange from './FoodListByRange'
 
 // Custom
 import { updateFoodList } from '../redux/actions/user'
@@ -32,7 +33,7 @@ const FoodList = (props) => {
         <FoodListByRecent />
       </Tabs.TabPane>
       <Tabs.TabPane tab={tabTitles.dateRange} key="2">
-        Content of Tab2
+        <FoodListByRange />
       </Tabs.TabPane>
     </Tabs>
   )
