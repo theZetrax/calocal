@@ -1,10 +1,15 @@
+import { connect } from 'react-redux'
+import { useEffect } from 'react'
+import axios from 'axios'
+
+// UI
 import { Button } from 'antd'
 
-import { connect } from 'react-redux'
+// Custom
 import { updateFoodList } from '../redux/actions/user'
-import { useEffect } from 'react'
 import { GetAuthToken, USER_TOKEN } from '../lib/auth'
-import axios from 'axios'
+// UI
+import NavBar from '../components/NavBar'
 
 const Home = function (props) {
   const { foodList, updateFoodList } = props
@@ -36,13 +41,9 @@ const Home = function (props) {
   }, [])
 
   return (
-    <div>
-      <div>
-        <Button type="primary" onClick={handleClick}>
-          Click Me
-        </Button>
-      </div>
-    </div>
+    <>
+      <NavBar />
+    </>
   )
 }
 

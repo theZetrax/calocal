@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  /* Margin & Centering */
+  max-width: 80%;
+  margin: 0 auto;
+
+  padding-top: 8px;
+}
