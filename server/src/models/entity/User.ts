@@ -26,6 +26,9 @@ export class User {
   @Column()
   password_hash: string;
 
+  @Column({ default: 2100 })
+  calorie_limit: number;
+
   @CreateDateColumn()
   created_date: Date;
 

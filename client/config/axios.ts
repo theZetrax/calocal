@@ -7,14 +7,13 @@ import router from 'next/router'
 if (typeof window !== 'undefined') {
   axios.defaults.baseURL = 'http://localhost:8090'
 
-  axios.defaults.transformResponse = (data: string) => {
-    const jsonData = JSON.parse(data)
-    const authToken = _.get(jsonData, USER_TOKEN)
+  axios.defaults.transformResponse = (data) => {
+    const authToken = _.get(data, USER_TOKEN)
 
     if (typeof authToken !== 'undefined')
       localStorage.setItem(USER_TOKEN, authToken)
 
-    return jsonData
+    return data
   }
 
   axios.defaults.validateStatus = (status) => {

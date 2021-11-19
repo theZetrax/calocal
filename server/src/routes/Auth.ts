@@ -9,6 +9,7 @@ import GenerateToken from "@app/utils/GenerateToekn";
 
 const AuthRotuer = Router();
 
+/** Login */
 AuthRotuer.post(
   "/login",
   body("username", "Username is required").exists(),
@@ -49,6 +50,7 @@ AuthRotuer.post(
   },
 );
 
+/** Signup */
 AuthRotuer.post(
   "/signup",
   body("fullname", "Fullname is required.").exists().isAscii(),

@@ -30,10 +30,6 @@ const LoginPage = () => {
         password,
       })
 
-      console.log({
-        response,
-      })
-
       // After login set the cookie
       localStorage.setItem(USER_TOKEN, response.data['token'])
       setLoading(false)
@@ -42,7 +38,7 @@ const LoginPage = () => {
       router.push('/')
     } catch (err) {
       setLoading(false)
-      console.error('Login failed', {
+      console.error('[Login Route] Login failed', {
         err,
       })
     }
