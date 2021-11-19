@@ -5,12 +5,17 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  BaseEntity,
 } from "typeorm";
+import { Exclude, classToPlain } from "class-transformer";
+
+import { FoodRecord } from "./FoodRecord";
 
 @Entity()
 @Unique("UQ_USERNAME", ["username"])
 @Unique("UQ_EMAIL", ["email"])
-export class User {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,6 +28,7 @@ export class User {
   @Column()
   email: string;
 
+  @Exclude({ toPlainOnly: true })
   @Column()
   password_hash: string;
 
@@ -34,4 +40,11 @@ export class User {
 
   @UpdateDateColumn()
   updated_date: Date;
+
+  @OneToMany(() => FoodRecord, (record) => record.user)
+  records: FoodRecord[];
+
+  toJSON() {
+    return classToPlain(this);
+  }
 }

@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
+  ManyToOne,
 } from "typeorm";
 import { User } from "./User";
 
@@ -22,7 +22,7 @@ export class FoodRecord {
   @Column()
   price: number;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User, (user) => user.records)
   user: User;
 
   @CreateDateColumn()
