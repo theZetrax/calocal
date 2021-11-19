@@ -1,57 +1,24 @@
 import { connect } from 'react-redux'
-import { useEffect } from 'react'
-import axios from 'axios'
 
 // UI
-import { Button } from 'antd'
+import FoodList from '../components/FoodList'
+import commonStyles from './styles/common.module.css'
 
 // Custom
 import { updateFoodList } from '../redux/actions/user'
-import { GetAuthToken, USER_TOKEN } from '../lib/auth'
-// UI
-import NavBar from '../components/NavBar'
 
 const Home = function (props) {
-  const { foodList, updateFoodList } = props
-
-  const handleClick = (e) => {
-    e.preventDefault()
-    updateFoodList()
-    console.log({
-      token: localStorage.getItem(USER_TOKEN),
-    })
-  }
-
-  useEffect(async function () {
-    try {
-      const response = await axios.get('/users', {
-        headers: {
-          Authorization: `Bearer ${GetAuthToken()}`,
-        },
-      })
-
-      console.log({
-        response,
-      })
-    } catch (err) {
-      console.log('Loading error', {
-        err,
-      })
-    }
-  }, [])
+  const { updateFoodList } = props
 
   return (
-    <>
-      <NavBar />
-    </>
+    <div className={commonStyles.container}>
+      <br />
+      <FoodList />
+    </div>
   )
 }
 
-const mapStateToProps = (state) => ({
-  foodList: state.user.foodList,
-  loading: state.user.loading,
-  error: state.user.error,
-})
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {
   updateFoodList,

@@ -8,4 +8,11 @@
   margin: 0 auto;
 
   padding-top: 8px;
+
+  /* bottom margin */
+  margin-bottom: 16px;
+}
+
+.logo {
+  cursor: pointer;
 }

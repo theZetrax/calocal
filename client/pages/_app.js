@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
 import 'antd/dist/antd.css'
 import Head from 'next/head'
-import '../config/axios'
 
+// UI
+import NavBar from '../components/NavBar'
+
+import '../config/axios'
 import { wrapper } from '../redux/store'
 
 function MyApp({ Component, pageProps }) {
@@ -13,6 +15,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" type="image/png" href="/favicon.svg" />
       </Head>
 
+      <NavBar />
       <Component {...pageProps} />
     </div>
   )

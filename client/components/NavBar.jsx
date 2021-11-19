@@ -7,8 +7,10 @@ import { UserOutlined } from '@ant-design/icons'
 import styles from './NavBar.module.css'
 
 const NavBar = () => (
-  <nav class={styles.nav}>
-    <img src="/assets/calocal.svg" height={32} />
+  <nav className={styles.nav}>
+    <Link href="/">
+      <img className={styles.logo} src="/assets/calocal.svg" height={32} />
+    </Link>
 
     <Link href="/account">
       <Tooltip
