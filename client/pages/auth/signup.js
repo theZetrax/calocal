@@ -4,11 +4,9 @@ import Link from 'next/link'
 import axios from 'axios'
 
 // UI Imports
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { Typography } from 'antd'
-
-// Custom
-import { GetAuthToken, USER_TOKEN } from '../../lib/auth'
+import { checkCredentials } from '../../lib/auth'
 
 const { Title } = Typography
 
@@ -16,8 +14,8 @@ const SignupPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (typeof GetAuthToken() !== 'undefined') router.push('/')
+  useEffect(async () => {
+    await checkCredentials()
   }, [])
 
   const onFinish = async (values) => {

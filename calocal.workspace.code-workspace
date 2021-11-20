@@ -10,5 +10,15 @@
   "settings": {
     "editor.formatOnSave": true,
     "editor.tabSize": 2
+  },
+  "launch": {
+    "configurations": [
+      {
+        "type": "pwa-chrome",
+        "name": "http://localhost:3000",
+        "request": "launch",
+        "url": "http://localhost:3000"
+      }
+    ]
   }
 }

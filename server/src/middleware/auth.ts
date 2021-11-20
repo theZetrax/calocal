@@ -13,12 +13,13 @@ const authMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.cookies[USER_TOKEN];
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) return res.sendStatus(401);
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = verify(token, ServerConfig.token);
     res.locals.user = payload.user;
   } catch (err) {
@@ -30,8 +31,10 @@ const authMiddleware = async (
     return res.sendStatus(401);
 
   const newToken = GenerateToken(userId);
-
-  res.setHeader(USER_TOKEN, newToken);
+  res.cookie("user-token", `Bearer ${newToken}`, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+  });
 
   next();
 };

@@ -6,9 +6,7 @@ import axios from 'axios'
 // UI Imports
 import { Form, Input, Button, Checkbox } from 'antd'
 import { Typography } from 'antd'
-
-// Custom
-import { GetAuthToken, USER_TOKEN } from '../../lib/auth'
+import { checkCredentials } from '../../lib/auth'
 
 const { Title } = Typography
 
@@ -16,8 +14,8 @@ const LoginPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (typeof GetAuthToken() !== 'undefined') router.push('/')
+  useEffect(async () => {
+    await checkCredentials()
   }, [])
 
   const onFinish = async (values) => {
@@ -25,13 +23,17 @@ const LoginPage = () => {
 
     try {
       setLoading(true)
-      const response = await axios.post('/auth/login', {
-        username,
-        password,
-      })
-
-      // After login set the cookie
-      localStorage.setItem(USER_TOKEN, response.data['token'])
+      const response = await axios.post(
+        '/auth/login',
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      // Stop button loading
       setLoading(false)
 
       // On success

@@ -1,6 +1,7 @@
 import Express from "express";
 import { json as jsonparser } from "body-parser";
 import cors from "cors";
+import cookieparser from "cookie-parser";
 
 /** Config Files */
 import ServerConfig from "@config/server.conf.json";
@@ -20,7 +21,13 @@ createConnection().then(async () => {
 
   const app = Express();
 
-  app.use(cors());
+  app.use(cookieparser());
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    }),
+  );
   app.use(jsonparser());
 
   app.use("/users", Users);

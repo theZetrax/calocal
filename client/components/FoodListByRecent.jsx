@@ -1,7 +1,16 @@
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
+
+import { getRecordsByRecent } from '../redux/actions/user'
 import FoodDetailCard from './FoodDetailCard'
 
-const FoodListByRecent = () => {
+const FoodListByRecent = (props) => {
+  const { recordList, getRecordsByRecent } = props
   const arr = [1, 2, 3]
+
+  useEffect(async () => {
+    await getRecordsByRecent()
+  }, [])
 
   return (
     <>
@@ -20,4 +29,13 @@ const FoodListByRecent = () => {
   )
 }
 
-export default FoodListByRecent
+const mapStateToProps = (state) => ({
+  recordList: state.user.recordList,
+  loading: state.user.loading,
+})
+
+const mapDispatchToProps = {
+  getRecordsByRecent,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FoodListByRecent)

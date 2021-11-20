@@ -22,11 +22,20 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
       where: { user: currentUser },
     });
 
-    return res.json({
-      data: {
-        records: foodRecords,
-      },
-    });
+    return (
+      res
+        .setHeader("Access-Control-Expose-Headers", "*")
+        .set("user-token", `Bearer ${res.locals.token}`)
+        // .set("access_token", `Bearer ${res.locals.token}`, {
+        //   expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+        // })
+        .json({
+          data: {
+            records: foodRecords,
+          },
+          token: res.locals.token,
+        })
+    );
   } catch (err) {
     console.error("[Fetch Records] Error", {
       err,
@@ -146,8 +155,8 @@ RecordRouter.get(
         },
       );
 
-      console.log({
-        filteredFoodRecords,
+      return res.json({
+        records: filteredFoodRecords,
       });
     } catch (err) {
       console.log("Range Select Records failed", {
@@ -158,8 +167,6 @@ RecordRouter.get(
         message: (err as Error).message,
       });
     }
-
-    return res.sendStatus(200);
   },
 );
 

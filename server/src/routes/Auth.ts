@@ -6,6 +6,7 @@ import { User } from "@app/models/entity/User";
 import { UserAuthLogin, UserAuthSignup } from "@app/types/user";
 import HashPassword from "@app/utils/HashPassword";
 import GenerateToken from "@app/utils/GenerateToekn";
+import authMiddleware from "@app/middleware/auth";
 
 const AuthRotuer = Router();
 
@@ -36,6 +37,11 @@ AuthRotuer.post(
         });
 
       const token = GenerateToken(String(user.id));
+
+      res.cookie("user-token", `Bearer ${token}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+      });
 
       /** Provide the token, */
       return res.json({
@@ -121,6 +127,12 @@ AuthRotuer.post(
       user: userAccountResponse,
     });
   },
+);
+
+AuthRotuer.get(
+  "/checkcredentials",
+  authMiddleware,
+  (req: Request, res: Response) => res.sendStatus(200),
 );
 
 // TODO: Add update for tokens.

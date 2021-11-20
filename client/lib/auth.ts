@@ -1,5 +1,18 @@
+import axios from 'axios'
+import router from 'next/router'
+
 export const USER_TOKEN = 'user-token'
 
-export const GetAuthToken = () => {
-  return localStorage.getItem(USER_TOKEN) || undefined
+/** If user login credentials is correct, redirect login page and signup page requests to home */
+export const checkCredentials = async () => {
+  try {
+    const response = await axios('/auth/checkcredentials', {
+      withCredentials: true,
+    })
+    if (response.status === 200) router.push('/')
+  } catch (err) {
+    console.error('Checking credentials failed', {
+      err,
+    })
+  }
 }
