@@ -5,13 +5,14 @@ import { getRecordsByRange, clearRecords } from '../redux/actions/user'
 import styles from './FoodListByRecent.module.css'
 import { Button, DatePicker, Typography } from 'antd'
 import FoodDetailCard from './FoodDetailCard'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import LoadingComponent from './LoadingComponent'
 import {
   ContainerTwoTone,
   SearchOutlined,
   SmileTwoTone,
 } from '@ant-design/icons'
+import { isNull } from 'lodash'
 
 const { RangePicker } = DatePicker
 const { Title } = Typography
@@ -23,16 +24,21 @@ const defaultRanges = {
 }
 
 const FoodListByRange = (props) => {
-  const { getRecordsByRange, recordList, loading } = props
+  const { getRecordsByRange, recordList, clearRecords, loading } = props
   const [dateRange, setDateRange] = useState([null, null])
 
   const handleRangeSelect = (date) => {
+    if (isNull(date) || isNull(date[0]) || isNull(date[1])) {
+      setDateRange([null, null])
+      return clearRecords()
+    }
+
     setDateRange(date)
   }
 
   const searchForRange = async () => {
-    if (typeof dateRange[0] === undefined) return
-    if (typeof dateRange[1] === undefined) return
+    if (isNull(dateRange[0])) return
+    if (isNull(dateRange[1])) return
 
     getRecordsByRange(dateRange[0].toDate(), dateRange[1].toDate())
   }
