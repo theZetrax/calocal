@@ -1,10 +1,12 @@
 import { Request, Response, Router } from "express";
 import { getRepository } from "typeorm";
 import { validationResult, body } from "express-validator";
+import _ from "lodash";
 
 import authMiddleware from "@app/middleware/auth";
 import { FoodRecord } from "@app/models/entity/FoodRecord";
 import { User } from "@app/models/entity/User";
+import GetDateEpoch from "@app/utils/GetDateEpoch";
 
 const RecordRouter = Router();
 
@@ -114,5 +116,51 @@ RecordRouter.delete("/:recordId", async (req: Request, res: Response) => {
     record: foodRecord,
   });
 });
+
+/* Select Date range records */
+RecordRouter.get(
+  "/range/:startDate/to/:endDate",
+  async (req: Request, res: Response) => {
+    try {
+      const startDate = GetDateEpoch(new Date(Number(req.params.startDate))),
+        endDate = GetDateEpoch(new Date(Number(req.params.endDate)));
+      const userId = res.locals.user;
+      const currentUser = await getRepository(User).findOne(userId);
+
+      if (isNaN(startDate))
+        throw new Error("Parameter startDate not in Date format.");
+      if (isNaN(endDate))
+        throw new Error("Parameter endDate not in Date format.");
+
+      const foodRecords = await getRepository(FoodRecord).find({
+        where: { user: currentUser },
+      });
+
+      const filteredFoodRecords = _.filter(
+        foodRecords,
+        (record: FoodRecord) => {
+          return (
+            GetDateEpoch(record.created_at) <= endDate &&
+            GetDateEpoch(record.created_at) >= startDate
+          );
+        },
+      );
+
+      console.log({
+        filteredFoodRecords,
+      });
+    } catch (err) {
+      console.log("Range Select Records failed", {
+        err,
+      });
+
+      return res.status(400).send({
+        message: (err as Error).message,
+      });
+    }
+
+    return res.sendStatus(200);
+  },
+);
 
 export default RecordRouter;
