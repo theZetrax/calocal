@@ -32,6 +32,7 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
+/* View Order */
 RecordRouter.get("/:recordId", async (req: Request, res: Response) => {
   try {
     const userId = res.locals.user;
@@ -91,5 +92,27 @@ RecordRouter.post(
     });
   },
 );
+
+/* Delete Food Record */
+RecordRouter.delete("/:recordId", async (req: Request, res: Response) => {
+  const recordId = req.params.recordId;
+  const userId = res.locals.user;
+
+  const currentUser = await getRepository(User).findOne(userId);
+  const foodRecord = await getRepository(FoodRecord).findOne({
+    where: { id: recordId },
+  });
+
+  // If record is not found
+  if (!foodRecord) return res.sendStatus(404);
+  // If user didn't create the record, reject request
+  if (foodRecord.user.id !== currentUser.id) return res.sendStatus(403);
+
+  await getRepository(FoodRecord).delete(foodRecord);
+  return res.status(200).send({
+    success: "Record successfully removed",
+    record: foodRecord,
+  });
+});
 
 export default RecordRouter;
