@@ -11,14 +11,13 @@ const userReducer = (
   action: { type: string, payload: UserPayloadType },
 ): UserStoreState => {
   switch (action.type) {
-    case ActionTypes.UPDATE_FILELIST_BEGIN:
+    case ActionTypes.UPDATE_RECORDS_BEGIN:
       return {
         recordList: [],
         loading: true,
       }
-    case ActionTypes.UPDATE_FILELIST_SUCCESS:
+    case ActionTypes.UPDATE_RECORDS_SUCCESS:
       return {
-        ...state,
         recordList: action.payload.recordList,
         loading: false,
       }

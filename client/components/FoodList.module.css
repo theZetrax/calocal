@@ -1,0 +1,9 @@
+.foodListContainer {
+  position: relative;
+}
+
+.foodRecordCreateBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

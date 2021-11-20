@@ -1,6 +1,7 @@
 import styles from './FoodDetailCard.module.css'
 
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 
 import { Card, Button, Typography, Badge } from 'antd'
 import {
@@ -14,7 +15,7 @@ const { Title } = Typography
 
 const FoodDetailCard = (props) => {
   const { id, name, calorie, price } = props
-  const created_date = new Date(props.created_date).toLocaleDateString()
+  const created_date = props.created_date.toLocaleDateString()
 
   return (
     <Card className={styles.card}>
@@ -43,9 +44,11 @@ const FoodDetailCard = (props) => {
           </div>
         </div>
         <div>
-          <Button type="primary" size="small" icon={<InfoCircleFilled />}>
-            Read More
-          </Button>
+          <Link href={`/record/${id}`}>
+            <Button type="primary" size="small" icon={<InfoCircleFilled />}>
+              Read More
+            </Button>
+          </Link>
         </div>
       </div>
     </Card>
@@ -53,7 +56,7 @@ const FoodDetailCard = (props) => {
 }
 
 FoodDetailCard.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   created_date: PropTypes.instanceOf(Date).isRequired,
   calorie: PropTypes.number.isRequired,

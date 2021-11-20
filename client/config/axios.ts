@@ -5,6 +5,8 @@ import router from 'next/router'
 if (typeof window !== 'undefined') {
   axios.defaults.baseURL = 'http://localhost:8090'
 
+  // REGION - testing purpose only
+  // Inspect request and response of axios
   axios.interceptors.request.use((config) => {
     console.log('request', {
       config,
@@ -20,6 +22,7 @@ if (typeof window !== 'undefined') {
 
     return config
   })
+  // END REGION - testing purpose only
 
   axios.defaults.validateStatus = (status) => {
     // If unauthorized, send user to login page

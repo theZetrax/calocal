@@ -30,10 +30,7 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
         //   expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
         // })
         .json({
-          data: {
-            records: foodRecords,
-          },
-          token: res.locals.token,
+          records: foodRecords,
         })
     );
   } catch (err) {
@@ -97,9 +94,7 @@ RecordRouter.post(
 
     return res.status(201).send({
       success: "Food record created successfully.",
-      data: {
-        record: newRecord,
-      },
+      record: newRecord,
     });
   },
 );
@@ -128,7 +123,7 @@ RecordRouter.delete("/:recordId", async (req: Request, res: Response) => {
 
 /* Select Date range records */
 RecordRouter.get(
-  "/range/:startDate/to/:endDate",
+  "/:startDate/to/:endDate",
   async (req: Request, res: Response) => {
     try {
       const startDate = GetDateEpoch(new Date(Number(req.params.startDate))),

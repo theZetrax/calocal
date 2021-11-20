@@ -1,16 +1,31 @@
 import { connect } from 'react-redux'
 
 // UI
-import { Tabs } from 'antd'
-import { CalendarOutlined, ContainerOutlined } from '@ant-design/icons'
+import styles from './FoodList.module.css'
+import { Button, Tabs } from 'antd'
+import {
+  CalendarOutlined,
+  ContainerOutlined,
+  PlusCircleFilled,
+} from '@ant-design/icons'
 import FoodListByRecent from './FoodListByRecent'
 import FoodListByRange from './FoodListByRange'
 
 // Custom
-import { updateFoodList } from '../redux/actions/user'
+import { getRecordsByRecent, clearRecords } from '../redux/actions/user'
+import { useEffect } from 'react'
 
 const FoodList = (props) => {
-  const { updateFoodList } = props
+  const { getRecordsByRecent, clearRecords } = props
+
+  useEffect(() => {
+    getRecordsByRecent()
+  }, [])
+
+  const handleTabChange = async (activeKey) => {
+    if (activeKey == 1) getRecordsByRecent()
+    else if (activeKey == 2) clearRecords()
+  }
 
   const tabTitles = {
     recent: (
@@ -28,21 +43,37 @@ const FoodList = (props) => {
   }
 
   return (
-    <Tabs defaultActiveKey="1" type="card" size="middle">
-      <Tabs.TabPane tab={tabTitles.recent} key="1">
-        <FoodListByRecent />
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tabTitles.dateRange} key="2">
-        <FoodListByRange />
-      </Tabs.TabPane>
-    </Tabs>
+    <div className={styles.foodListContainer}>
+      <Tabs
+        onChange={handleTabChange}
+        defaultActiveKey="1"
+        type="card"
+        size="middle"
+      >
+        <Tabs.TabPane tab={tabTitles.recent} key="1">
+          <FoodListByRecent />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={tabTitles.dateRange} key="2">
+          <FoodListByRange />
+        </Tabs.TabPane>
+      </Tabs>
+
+      <Button
+        type="primary"
+        icon={<PlusCircleFilled />}
+        className={styles.foodRecordCreateBtn}
+      >
+        Create Record
+      </Button>
+    </div>
   )
 }
 
 const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = {
-  updateFoodList,
+  getRecordsByRecent,
+  clearRecords,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodList)

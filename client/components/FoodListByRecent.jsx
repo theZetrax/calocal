@@ -1,28 +1,30 @@
-import { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { getRecordsByRecent } from '../redux/actions/user'
+import styles from './FoodListByRecent.module.css'
 import FoodDetailCard from './FoodDetailCard'
+import LoadingComponent from './LoadingComponent'
 
 const FoodListByRecent = (props) => {
-  const { recordList, getRecordsByRecent } = props
-  const arr = [1, 2, 3]
+  const { recordList, loading } = props
 
-  useEffect(async () => {
-    await getRecordsByRecent()
-  }, [])
+  if (loading)
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingComponent />
+      </div>
+    )
 
   return (
     <>
-      {arr &&
-        arr.map((ele, idx) => (
+      {recordList &&
+        recordList.map((record) => (
           <FoodDetailCard
-            key={idx}
-            name="Food Title"
-            created_date={new Date()}
-            id="1"
-            price={300}
-            calorie={1200}
+            key={record.id}
+            name={record.name}
+            created_date={new Date(record.created_at)}
+            id={record.id}
+            price={record.price}
+            calorie={record.calories}
           />
         ))}
     </>
@@ -34,8 +36,6 @@ const mapStateToProps = (state) => ({
   loading: state.user.loading,
 })
 
-const mapDispatchToProps = {
-  getRecordsByRecent,
-}
+const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodListByRecent)
