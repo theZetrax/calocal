@@ -4,6 +4,7 @@ import router from 'next/router'
 
 if (typeof window !== 'undefined') {
   axios.defaults.baseURL = 'http://localhost:8090'
+  axios.defaults.withCredentials = true
 
   // REGION - testing purpose only
   // Inspect request and response of axios

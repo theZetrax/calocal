@@ -33,7 +33,7 @@ const authMiddleware = async (
   const newToken = GenerateToken(userId);
   res.cookie("user-token", `Bearer ${newToken}`, {
     httpOnly: true,
-    expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+    expires: new Date(Date.now() + 3600000 / 2), // cookie will be removed after 8 hours
   });
 
   next();

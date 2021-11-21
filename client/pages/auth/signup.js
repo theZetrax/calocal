@@ -21,9 +21,15 @@ const SignupPage = () => {
   const onFinish = async (values) => {
     try {
       setLoading(true)
-      await axios.post('/auth/signup', {
-        ...values,
-      })
+      await axios.post(
+        '/auth/signup',
+        {
+          ...values,
+        },
+        {
+          withCredentials: false,
+        },
+      )
 
       router.push('/auth/login')
       setLoading(false)

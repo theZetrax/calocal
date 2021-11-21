@@ -1,16 +1,14 @@
 import axios from 'axios'
 
 import GetDateEpoch from '../../lib/GetDateEpoch'
-import { ActionTypes, UserPayloadType } from '../types/user'
+import { ActionTypes } from '../types/user'
 
 export const getRecordsByRecent = () => async (dispatch) => {
   try {
     dispatch({
       type: ActionTypes.UPDATE_RECORDS_BEGIN,
     })
-    const response = await axios.get('/records', {
-      withCredentials: true,
-    })
+    const response = await axios.get('/records')
 
     dispatch({
       type: ActionTypes.UPDATE_RECORDS_SUCCESS,
@@ -33,12 +31,7 @@ export const getRecordsByRange =
       const startEpoch = GetDateEpoch(startDate)
       const endEpoch = GetDateEpoch(endDate)
 
-      const response = await axios.get(
-        `/records/${startEpoch}/to/${endEpoch}`,
-        {
-          withCredentials: true,
-        },
-      )
+      const response = await axios.get(`/records/${startEpoch}/to/${endEpoch}`)
 
       dispatch({
         type: ActionTypes.UPDATE_RECORDS_SUCCESS,

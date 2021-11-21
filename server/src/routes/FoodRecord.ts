@@ -20,6 +20,7 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
     });
     const foodRecords = await getRepository(FoodRecord).find({
       where: { user: currentUser },
+      order: { created_at: "DESC" },
     });
 
     return (
@@ -138,6 +139,7 @@ RecordRouter.get(
 
       const foodRecords = await getRepository(FoodRecord).find({
         where: { user: currentUser },
+        order: { created_at: "DESC" },
       });
 
       const filteredFoodRecords = _.filter(

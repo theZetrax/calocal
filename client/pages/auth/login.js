@@ -23,16 +23,10 @@ const LoginPage = () => {
 
     try {
       setLoading(true)
-      const response = await axios.post(
-        '/auth/login',
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        },
-      )
+      await axios.post('/auth/login', {
+        username,
+        password,
+      })
       // Stop button loading
       setLoading(false)
 

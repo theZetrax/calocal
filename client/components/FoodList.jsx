@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { connect } from 'react-redux'
 
 // UI
@@ -58,13 +59,15 @@ const FoodList = (props) => {
         </Tabs.TabPane>
       </Tabs>
 
-      <Button
-        type="primary"
-        icon={<PlusCircleFilled />}
-        className={styles.foodRecordCreateBtn}
-      >
-        Create Record
-      </Button>
+      <Link href="/records/create">
+        <Button
+          type="primary"
+          icon={<PlusCircleFilled />}
+          className={styles.foodRecordCreateBtn}
+        >
+          Create Record
+        </Button>
+      </Link>
     </div>
   )
 }

@@ -44,7 +44,7 @@ const FoodDetailCard = (props) => {
           </div>
         </div>
         <div>
-          <Link href={`/record/${id}`}>
+          <Link href={`/records/${id}`}>
             <Button type="primary" size="small" icon={<InfoCircleFilled />}>
               Read More
             </Button>
