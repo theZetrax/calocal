@@ -27,7 +27,9 @@ if (typeof window !== 'undefined') {
 
   axios.defaults.validateStatus = (status) => {
     // If unauthorized, send user to login page
-    if (status === 401) router.push('/auth/login')
+    if (status === 401) {
+      if (!router.pathname.includes('auth')) router.push('/auth/login')
+    }
     // For access denied paths, redirect to user home
     if (status === 403) router.push('/')
 

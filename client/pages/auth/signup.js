@@ -4,7 +4,7 @@ import Link from 'next/link'
 import axios from 'axios'
 
 // UI Imports
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Checkbox } from 'antd'
 import { Typography } from 'antd'
 import { checkCredentials } from '../../lib/auth'
 
@@ -21,6 +21,9 @@ const SignupPage = () => {
   const onFinish = async (values) => {
     try {
       setLoading(true)
+      console.log({
+        values,
+      })
       await axios.post(
         '/auth/signup',
         {
@@ -90,6 +93,15 @@ const SignupPage = () => {
         rules={[{ required: true, message: 'Please input your password' }]}
       >
         <Input.Password />
+      </Form.Item>
+
+      <Form.Item
+        valuePropName="checked"
+        name="isadmin"
+        initialValue={false}
+        wrapperCol={{ offset: 4, span: 16 }}
+      >
+        <Checkbox>Is Admin Account</Checkbox>
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 4, span: 16 }}>

@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 import styles from './FoodListByRecent.module.css'
 import FoodDetailCard from './FoodDetailCard'
 import LoadingComponent from './LoadingComponent'
+import { ContainerTwoTone } from '@ant-design/icons'
+import { Typography } from 'antd'
+
+const { Title } = Typography
 
 const FoodListByRecent = (props) => {
   const { recordList, loading } = props
@@ -16,7 +20,12 @@ const FoodListByRecent = (props) => {
 
   return (
     <>
-      {recordList &&
+      {recordList.length <= 0 ? (
+        <Title level={5} className={styles.loadingContainer}>
+          <ContainerTwoTone />
+          You have nothing to see here
+        </Title>
+      ) : (
         recordList.map((record) => (
           <FoodDetailCard
             key={record.id}
@@ -26,7 +35,8 @@ const FoodListByRecent = (props) => {
             price={record.price}
             calorie={record.calories}
           />
-        ))}
+        ))
+      )}
     </>
   )
 }

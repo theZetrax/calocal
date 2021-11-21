@@ -3,6 +3,7 @@ export interface UserAuthSignup {
   password: string;
   fullname: string;
   email: string;
+  isadmin?: boolean;
 }
 
 export interface UserAuthLogin {

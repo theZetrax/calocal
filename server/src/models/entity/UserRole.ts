@@ -13,7 +13,7 @@ export class UserRole {
   id: number;
 
   @Column()
-  role: string;
+  isAdmin: boolean;
 
   @OneToOne(() => User)
   @JoinColumn()

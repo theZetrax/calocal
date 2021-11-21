@@ -7,6 +7,7 @@ import { UserAuthLogin, UserAuthSignup } from "@app/types/user";
 import HashPassword from "@app/utils/HashPassword";
 import GenerateToken from "@app/utils/GenerateToekn";
 import authMiddleware from "@app/middleware/auth";
+import { UserRole } from "@app/models/entity/UserRole";
 
 const AuthRotuer = Router();
 
@@ -99,8 +100,14 @@ AuthRotuer.post(
     user.username = body.username;
     user.password_hash = HashPassword(body.password);
 
+    /** Adding User Role */
+    const userRole = new UserRole();
+    userRole.user = user;
+    userRole.isAdmin = body.isadmin ? true : false;
+
     try {
       await getRepository(User).manager.save(user);
+      await getRepository(UserRole).manager.save(userRole);
     } catch (err) {
       if (err instanceof QueryFailedError) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

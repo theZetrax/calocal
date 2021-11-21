@@ -14,6 +14,7 @@ import { createConnection } from "typeorm";
 import Users from "@app/routes/Users";
 import Auth from "@app/routes/Auth";
 import FoodRecord from "@app/routes/FoodRecord";
+import AdminRouter from "./routes/Admin";
 
 console.info("Connecting to database...");
 createConnection().then(async () => {
@@ -33,6 +34,7 @@ createConnection().then(async () => {
   app.use("/users", Users);
   app.use("/auth", Auth);
   app.use("/records", FoodRecord);
+  app.use("/admin", AdminRouter);
 
   app.listen(ServerConfig.port, () => {
     console.log(`Server running on: ${ServerConfig.port}`);
