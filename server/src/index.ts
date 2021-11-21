@@ -11,7 +11,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 
 /** Express Routers */
-import Users from "@app/routes/Users";
+import User from "@app/routes/User";
 import Auth from "@app/routes/Auth";
 import FoodRecord from "@app/routes/FoodRecord";
 import AdminRouter from "./routes/Admin";
@@ -31,7 +31,7 @@ createConnection().then(async () => {
   );
   app.use(jsonparser());
 
-  app.use("/users", Users);
+  app.use("/users", User);
   app.use("/auth", Auth);
   app.use("/records", FoodRecord);
   app.use("/admin", AdminRouter);

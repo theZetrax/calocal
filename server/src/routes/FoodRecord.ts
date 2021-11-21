@@ -23,17 +23,9 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
       order: { created_at: "DESC" },
     });
 
-    return (
-      res
-        .setHeader("Access-Control-Expose-Headers", "*")
-        .set("user-token", `Bearer ${res.locals.token}`)
-        // .set("access_token", `Bearer ${res.locals.token}`, {
-        //   expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
-        // })
-        .json({
-          records: foodRecords,
-        })
-    );
+    return res.json({
+      records: foodRecords,
+    });
   } catch (err) {
     console.error("[Fetch Records] Error", {
       err,
