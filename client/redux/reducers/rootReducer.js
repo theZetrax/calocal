@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 
 // Custom Reducers
-import user from '../reducers/userReducer'
+import user from './userReducer'
+import admin from './adminReducer'
 
 const rootReducer = combineReducers({
-  user: user,
+  user,
+  admin,
 })
 
 export default rootReducer

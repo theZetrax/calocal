@@ -14,12 +14,9 @@ AdminRouter.get("/", async (req: Request, res: Response) => {
       order: { created_at: "DESC" },
     });
 
-    return res
-      .setHeader("Access-Control-Expose-Headers", "*")
-      .set("user-token", `Bearer ${res.locals.token}`)
-      .json({
-        records: foodRecords,
-      });
+    return res.json({
+      records: foodRecords,
+    });
   } catch (err) {
     console.error("[Fetch Records] Error", {
       err,
