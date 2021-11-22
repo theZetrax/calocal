@@ -56,7 +56,7 @@ const Home = function (props) {
             </p>
             <p>
               Average Daily Calorie Intake This Week:{' '}
-              <b>{accountInformation.averageCalories}</b>
+              <b>{accountInformation.averageCalories || 0}</b>
             </p>
           </Card>
         )}
