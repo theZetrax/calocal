@@ -1,5 +1,6 @@
 import { InfoCircleFilled } from '@ant-design/icons'
 import { Tabs, Card, Typography, Button } from 'antd'
+import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -15,7 +16,16 @@ const { Title } = Typography
 
 const MainPage = (props) => {
   const router = useRouter()
-  const { recordList, getAllUsers, userList, loading, getAllRecords } = props
+  const {
+    recordList,
+    getAllUsers,
+    summaryBeforeWeek,
+    summaryWeek,
+    userList,
+    loading,
+    getAllRecords,
+  } = props
+  const todayDate = moment().calendar('Y-M-d')
 
   const handleTabChange = () => {}
   const tabTitles = {
@@ -37,7 +47,15 @@ const MainPage = (props) => {
 
   return (
     <div className={commonStyles.container}>
-      <div>Stats Here</div>
+      <Card loading={loading}>
+        <Title level={4}>User Statistics</Title>
+        <p>
+          Today: <b>{todayDate}</b>
+        </p>
+        <p>Current Week Enteries: {summaryWeek}</p>
+        <p>Past Week Enteries: {summaryBeforeWeek}</p>
+      </Card>
+      <br />
       {loading ? (
         <div>
           <LoadingComponent />
@@ -97,6 +115,8 @@ const MainPage = (props) => {
 
 const mapStateToProps = (state) => ({
   recordList: state.admin.recordList,
+  summaryBeforeWeek: state.admin.summaryBeforeWeek,
+  summaryWeek: state.admin.summaryWeek,
   userList: state.admin.userList,
   loading: state.admin.loading,
 })

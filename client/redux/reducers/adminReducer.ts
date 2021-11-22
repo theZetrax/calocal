@@ -29,6 +29,8 @@ const adminReducer = (
       return {
         ...state,
         recordList: action.payload.recordList,
+        summaryBeforeWeek: action.payload.summaryBeforeWeek,
+        summaryWeek: action.payload.summaryWeek,
         loading: false,
       }
     case AdminActionTypes.UPDATE_SUMMARY_BEGIN:
@@ -41,7 +43,6 @@ const adminReducer = (
     case AdminActionTypes.UPDATE_SUMMARY_SUCCESS:
       return {
         ...state,
-        loading: false,
         summaryBeforeWeek: action.payload.summaryBeforeWeek,
         summaryWeek: action.payload.summaryWeek,
       }

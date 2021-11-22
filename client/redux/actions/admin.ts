@@ -13,7 +13,11 @@ export const getAllRecords = () => async (dispatch) => {
 
     dispatch({
       type: RecordActionTypes.UPDATE_RECORDS_SUCCESS,
-      payload: { recordList: response.data.records },
+      payload: {
+        recordList: response.data.records,
+        summaryBeforeWeek: response.data.weekBeforeEnteries,
+        summaryWeek: response.data.weekEnteries,
+      },
     })
   } catch (err) {
     console.error('Fetching All Records Failed', {

@@ -1,6 +1,10 @@
 import adminMiddleware from "@app/middleware/admin";
 import { FoodRecord } from "@app/models/entity/FoodRecord";
 import { User } from "@app/models/entity/User";
+import {
+  UserAddedEnteries,
+  UserAverageCalories,
+} from "@app/utils/DateRangeActions";
 import { Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
 import { getRepository } from "typeorm";
@@ -15,8 +19,12 @@ AdminRouter.get("/", async (req: Request, res: Response) => {
       order: { created_at: "DESC" },
     });
 
+    const { weekBeforeEnteries, weekEnteries } = await UserAddedEnteries();
+
     return res.json({
       records: foodRecords,
+      weekBeforeEnteries,
+      weekEnteries,
     });
   } catch (err) {
     console.error("[Fetch Records] Error", {
@@ -92,8 +100,12 @@ AdminRouter.get("/users/:userId/view", async (req: Request, res: Response) => {
     });
 
     if (!user) return res.sendStatus(404);
+
+    const userAverageCalories = await UserAverageCalories(user);
+
     return res.send({
       user,
+      averageCalories: userAverageCalories,
     });
   } catch (err) {
     console.error("Fetching User Account Information Failed", {

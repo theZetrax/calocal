@@ -24,6 +24,7 @@ const AdminUserPage = () => {
     calorie_limit: '',
     records: [],
   })
+  const [averageUserCalories, setAverageUserCalories] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(async () => {
@@ -33,6 +34,7 @@ const AdminUserPage = () => {
       const response = await axios.get(`/admin/users/${userId}/view`)
 
       setUserInformation(response.data.user)
+      setAverageUserCalories(response.data.averageCalories)
       setLoading(false)
     } catch (err) {
       console.error('Fetch user information failed', {
@@ -48,6 +50,9 @@ const AdminUserPage = () => {
         <p>User Name: {userInformation.username}</p>
         <p>Email: {userInformation.email}</p>
         <p>Calorie Limit: {userInformation.calorie_limit}</p>
+        <p>
+          <b>Average User Calories This Week: {averageUserCalories}</b>
+        </p>
         {userId && (
           <Link href={`/admin/users/${userId}/records/create`}>
             <Button icon={<PlusCircleTwoTone />}>
