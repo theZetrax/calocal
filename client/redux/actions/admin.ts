@@ -28,7 +28,7 @@ export const getAllUsers = () => async (dispatch) => {
       type: AdminActionTypes.UPDATE_USERLIST_BEGIN,
     })
 
-    const response = await axios('/admin/users')
+    const response = await axios('/admin/users/list')
 
     dispatch({
       type: AdminActionTypes.UPDATE_USERLIST_SUCCESS,

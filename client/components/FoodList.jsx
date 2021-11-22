@@ -19,8 +19,14 @@ import { useEffect } from 'react'
 const FoodList = (props) => {
   const { getRecordsByRecent, clearRecords } = props
 
-  useEffect(() => {
-    getRecordsByRecent()
+  useEffect(async () => {
+    try {
+      await getRecordsByRecent()
+    } catch (err) {
+      console.error('Fetching Records Failed', {
+        err,
+      })
+    }
   }, [])
 
   const handleTabChange = async (activeKey) => {

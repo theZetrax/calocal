@@ -45,7 +45,7 @@ AdminRouter.get("/:recordId", async (req: Request, res: Response) => {
   }
 });
 
-AdminRouter.get("/users", async (req: Request, res: Response) => {
+AdminRouter.get("/users/list", async (req: Request, res: Response) => {
   try {
     const userList = await getRepository(User).find({
       order: { created_date: "DESC" },
@@ -61,7 +61,7 @@ AdminRouter.get("/users", async (req: Request, res: Response) => {
   }
 });
 
-AdminRouter.get("/users/:userId", async (req: Request, res: Response) => {
+AdminRouter.get("/users/:userId/view", async (req: Request, res: Response) => {
   const userId = req.params.userId;
 
   try {

@@ -2,6 +2,7 @@ import styles from './FoodDetailCard.module.css'
 
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { Card, Button, Typography, Badge } from 'antd'
 import {
@@ -14,6 +15,8 @@ import {
 const { Title } = Typography
 
 const FoodDetailCard = (props) => {
+  const router = useRouter()
+
   const { id, name, calorie, price } = props
   const created_date = props.created_date.toLocaleDateString()
 
@@ -44,7 +47,7 @@ const FoodDetailCard = (props) => {
           </div>
         </div>
         <div>
-          <Link href={`/records/${id}`}>
+          <Link href={`${router.pathname}/records/${id}`}>
             <Button type="primary" size="small" icon={<InfoCircleFilled />}>
               Read More
             </Button>
