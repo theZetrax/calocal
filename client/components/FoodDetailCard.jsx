@@ -16,7 +16,6 @@ const { Title } = Typography
 
 const FoodDetailCard = (props) => {
   const router = useRouter()
-
   const { id, name, calorie, price } = props
   const created_date = props.created_date.toLocaleDateString()
 
@@ -47,7 +46,12 @@ const FoodDetailCard = (props) => {
           </div>
         </div>
         <div>
-          <Link href={`${router.pathname}/records/${id}`}>
+          <Link
+            href={{
+              pathname: `${router.pathname}/records/[recordId]`,
+              query: { ...router.query, recordId: id },
+            }}
+          >
             <Button type="primary" size="small" icon={<InfoCircleFilled />}>
               Read More
             </Button>

@@ -64,7 +64,7 @@ const MainPage = (props) => {
           </Tabs.TabPane>
           <Tabs.TabPane tab={tabTitles.users} key="2">
             {userList.map((user) => (
-              <Card className={commonStyles.card}>
+              <Card className={commonStyles.card} key={user.id}>
                 <div className={commonStyles.cardBody}>
                   <div>
                     <Title level={3}>{user.fullname}</Title>
