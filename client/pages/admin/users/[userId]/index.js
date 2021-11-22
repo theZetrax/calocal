@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import axios from 'axios'
 
 import commonStyles from '../../../styles/common.module.css'
-import { Card, Typography } from 'antd'
-import { ContainerTwoTone, InfoCircleTwoTone } from '@ant-design/icons'
+import { Button, Card, Typography } from 'antd'
+import {
+  ContainerTwoTone,
+  InfoCircleTwoTone,
+  PlusCircleTwoTone,
+} from '@ant-design/icons'
 import FoodDetailCard from '../../../../components/FoodDetailCard'
 
 const { Title } = Typography
@@ -43,6 +48,13 @@ const AdminUserPage = () => {
         <p>User Name: {userInformation.username}</p>
         <p>Email: {userInformation.email}</p>
         <p>Calorie Limit: {userInformation.calorie_limit}</p>
+        {userId && (
+          <Link href={`/admin/users/${userId}/records/create`}>
+            <Button icon={<PlusCircleTwoTone />}>
+              Add Food Record for User
+            </Button>
+          </Link>
+        )}
       </Card>
       <div style={{ width: '100%', paddingBottom: '16px' }}>
         <Title level={4}>

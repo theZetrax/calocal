@@ -2,6 +2,7 @@ import adminMiddleware from "@app/middleware/admin";
 import { FoodRecord } from "@app/models/entity/FoodRecord";
 import { User } from "@app/models/entity/User";
 import { Request, Response, Router } from "express";
+import { body, validationResult } from "express-validator";
 import { getRepository } from "typeorm";
 
 const AdminRouter = Router();
@@ -110,6 +111,57 @@ AdminRouter.get(
       });
     } catch (err) {
       console.error("Fetching User Food Record Failed", {
+        err,
+      });
+    }
+  },
+);
+
+AdminRouter.post(
+  "/users/:userId/records/create",
+  body("name", "Food name is required to create a record.").exists(),
+  body("calories", "Food calories are required for food record.")
+    .isNumeric()
+    .exists(),
+  body("price", "Food price is required to create a record")
+    .isNumeric()
+    .exists(),
+  async (req: Request, res: Response) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty())
+      return res.status(400).send({
+        message: "Error creating user food record",
+        err: validationErrors,
+      });
+
+    console.log({
+      body: req.body,
+    });
+
+    const { userId } = req.params;
+    const { name, calories, price } = req.body;
+
+    try {
+      const user = await getRepository(User).findOne({ where: { id: userId } });
+
+      if (!user)
+        return res.status(404).send({
+          message: "User doesn't exist",
+        });
+
+      const foodRecord = new FoodRecord();
+      foodRecord.name = name;
+      foodRecord.user = user;
+      foodRecord.calories = calories;
+      foodRecord.price = price;
+
+      await getRepository(FoodRecord).save(foodRecord);
+
+      return res.send({
+        success: "User food record created successfully.",
+      });
+    } catch (err) {
+      console.error("Failed Creating User Food Record", {
         err,
       });
     }

@@ -56,7 +56,7 @@ const CreateRecordPage = () => {
           },
         ]}
       >
-        <Input name="name" placeholder="Enter your food name here." />
+        <Input placeholder="Enter your food name here." />
       </Form.Item>
       <Form.Item
         name="calories"
@@ -64,11 +64,7 @@ const CreateRecordPage = () => {
         rules={[{ required: true, message: 'Food calories is required.' }]}
         initialValue={100}
       >
-        <Input
-          name="calories"
-          type="number"
-          placeholder="Enter the food calories here."
-        />
+        <Input type="number" placeholder="Enter the food calories here." />
       </Form.Item>
       <Form.Item
         name="price"
@@ -76,11 +72,7 @@ const CreateRecordPage = () => {
         rules={[{ required: true, message: 'Food price is required.' }]}
         initialValue={50}
       >
-        <Input
-          name="price"
-          type="number"
-          placeholder="Enter the food price here."
-        />
+        <Input type="number" placeholder="Enter the food price here." />
       </Form.Item>
       <Form.Item>
         <Button
