@@ -5,9 +5,17 @@ import _ from "lodash";
 
 import authMiddleware from "@app/middleware/auth";
 import { FoodRecord } from "@app/models/entity/FoodRecord";
-import { DefaultCalorieLimit, User } from "@app/models/entity/User";
+import {
+  DefaultCalorieLimit,
+  MonthlyExpenseLimit,
+  User,
+} from "@app/models/entity/User";
 import GetDateEpoch from "@app/utils/GetDateEpoch";
-import { GetDailyCalorieLimit } from "@app/utils/DateRangeActions";
+import {
+  GetDailyCalorieLimit,
+  GetMonthPriceLimit,
+  UserAverageCalories,
+} from "@app/utils/DateRangeActions";
 
 const RecordRouter = Router();
 
@@ -25,11 +33,16 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
     });
 
     const caloriesLeft = await GetDailyCalorieLimit(currentUser);
+    const totalMonthExpense = await GetMonthPriceLimit(currentUser);
+    const averageCalories = await UserAverageCalories(currentUser);
 
     return res.json({
       records: foodRecords,
       calorieLimit: DefaultCalorieLimit,
       caloriesLeftToday: caloriesLeft,
+      monthlyLimit: MonthlyExpenseLimit,
+      totalMonthExpense,
+      averageCalories,
     });
   } catch (err) {
     console.error("[Fetch Records] Error", {

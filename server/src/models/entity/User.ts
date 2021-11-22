@@ -13,6 +13,7 @@ import { Exclude, classToPlain } from "class-transformer";
 import { FoodRecord } from "./FoodRecord";
 
 export const DefaultCalorieLimit = 2100;
+export const MonthlyExpenseLimit = 1000;
 
 @Entity()
 @Unique("UQ_USERNAME", ["username"])
