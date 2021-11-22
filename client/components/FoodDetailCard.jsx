@@ -48,7 +48,7 @@ const FoodDetailCard = (props) => {
         <div>
           <Link
             href={{
-              pathname: `${router.pathname}/records/[recordId]`,
+              pathname: `${router.pathname}records/[recordId]`,
               query: { ...router.query, recordId: id },
             }}
           >
