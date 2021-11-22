@@ -134,10 +134,6 @@ AdminRouter.post(
         err: validationErrors,
       });
 
-    console.log({
-      body: req.body,
-    });
-
     const { userId } = req.params;
     const { name, calories, price } = req.body;
 
