@@ -1,5 +1,6 @@
 import styles from '../styles/common.module.css'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { Form, Input, Button, Typography } from 'antd'
@@ -9,6 +10,7 @@ import axios from 'axios'
 const { Title } = Typography
 
 const CreateRecordPage = () => {
+  const router = useRouter()
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false)
 
@@ -21,6 +23,8 @@ const CreateRecordPage = () => {
         calories,
         price,
       })
+
+      router.push('/')
     } catch (err) {
       console.log('Failed to created Food Record', {
         err,

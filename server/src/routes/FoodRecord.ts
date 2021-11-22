@@ -40,7 +40,7 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
       records: foodRecords,
       calorieLimit: DefaultCalorieLimit,
       caloriesLeftToday: caloriesLeft,
-      monthlyLimit: MonthlyExpenseLimit,
+      monthlyExpenseLimit: MonthlyExpenseLimit,
       totalMonthExpense,
       averageCalories,
     });

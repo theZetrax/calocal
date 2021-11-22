@@ -1,9 +1,8 @@
-const UPDATE_RECORDS_BEGIN = 'UPDATE_RECORDS_BEGIN'
-const UPDATE_RECORDS_SUCCESS = 'UPDATE_RECORDS_SUCCESS'
-
 export const ActionTypes = {
-  UPDATE_RECORDS_BEGIN,
-  UPDATE_RECORDS_SUCCESS,
+  UPDATE_RECORDS_BEGIN: 'UPDATE_RECORDS_BEGIN',
+  UPDATE_RECORDS_SUCCESS: 'UPDATE_RECORDS_SUCCESS',
+  UPDATE_ACCOUNT_INFO_BEGIN: 'UPDATE_ACCOUNT_INFO_BEGIN',
+  UPDATE_ACCOUNT_INFO_SUCCESS: 'UPDATE_ACCOUNT_INFO_SUCCESS',
 }
 
 export type UserType = {
@@ -26,11 +25,21 @@ export type FoodRecordType = {
   updated_at: Date,
 }
 
+export type AccountInformationType = {
+  calorieLimit: number,
+  caloriesLeftToday: number,
+  monthlyExpenseLimit: number,
+  totalMonthExpense: number,
+  averageCalories: number,
+}
+
 export type UserPayloadType = {
   recordList: FoodRecordType[],
+  accountInformation: AccountInformationType,
 }
 
 export type UserStoreState = {
   recordList: FoodRecordType[],
+  accountInformation: AccountInformationType,
   loading: boolean,
 }

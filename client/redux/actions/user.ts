@@ -1,14 +1,28 @@
 import axios from 'axios'
 
 import GetDateEpoch from '../../lib/GetDateEpoch'
-import { ActionTypes } from '../types/user'
+import { AccountInformationType, ActionTypes } from '../types/user'
 
 export const getRecordsByRecent = () => async (dispatch) => {
   try {
     dispatch({
       type: ActionTypes.UPDATE_RECORDS_BEGIN,
     })
+
     const response = await axios.get('/records')
+
+    dispatch({
+      type: ActionTypes.UPDATE_ACCOUNT_INFO_SUCCESS,
+      payload: {
+        accountInformation: <AccountInformationType>{
+          averageCalories: response.data.averageCalories,
+          calorieLimit: response.data.calorieLimit,
+          caloriesLeftToday: response.data.caloriesLeftToday,
+          monthlyExpenseLimit: response.data.monthlyExpenseLimit,
+          totalMonthExpense: response.data.totalMonthExpense,
+        },
+      },
+    })
 
     dispatch({
       type: ActionTypes.UPDATE_RECORDS_SUCCESS,
