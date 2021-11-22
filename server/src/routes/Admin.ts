@@ -184,4 +184,38 @@ AdminRouter.post(
   },
 );
 
+AdminRouter.post(
+  "/users/:userId/records/edit/:recordId",
+  body("name", "Food name is required to create a record.").exists(),
+  body("calories", "Food calories are required for food record.")
+    .isNumeric()
+    .exists(),
+  body("price", "Food price is required to create a record")
+    .isNumeric()
+    .exists(),
+  async (req: Request, res: Response) => {
+    const { recordId } = req.params;
+
+    try {
+      const record = await getRepository(FoodRecord).findOne(recordId);
+
+      if (!record) return res.sendStatus(404);
+
+      const { name, calories, price } = req.body;
+
+      record.name = name;
+      record.calories = calories;
+      record.price = price;
+
+      await getRepository(FoodRecord).save(record);
+
+      res.sendStatus(200);
+    } catch (err) {
+      console.error("Updating User Record Failed", {
+        err,
+      });
+    }
+  },
+);
+
 export default AdminRouter;
