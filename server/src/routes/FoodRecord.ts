@@ -5,8 +5,9 @@ import _ from "lodash";
 
 import authMiddleware from "@app/middleware/auth";
 import { FoodRecord } from "@app/models/entity/FoodRecord";
-import { User } from "@app/models/entity/User";
+import { DefaultCalorieLimit, User } from "@app/models/entity/User";
 import GetDateEpoch from "@app/utils/GetDateEpoch";
+import { GetDailyCalorieLimit } from "@app/utils/DateRangeActions";
 
 const RecordRouter = Router();
 
@@ -23,8 +24,12 @@ RecordRouter.get("/", async (req: Request, res: Response) => {
       order: { created_at: "DESC" },
     });
 
+    const caloriesLeft = await GetDailyCalorieLimit(currentUser);
+
     return res.json({
       records: foodRecords,
+      calorieLimit: DefaultCalorieLimit,
+      caloriesLeftToday: caloriesLeft,
     });
   } catch (err) {
     console.error("[Fetch Records] Error", {

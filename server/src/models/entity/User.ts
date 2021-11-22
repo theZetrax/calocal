@@ -12,6 +12,8 @@ import { Exclude, classToPlain } from "class-transformer";
 
 import { FoodRecord } from "./FoodRecord";
 
+export const DefaultCalorieLimit = 2100;
+
 @Entity()
 @Unique("UQ_USERNAME", ["username"])
 @Unique("UQ_EMAIL", ["email"])
@@ -32,7 +34,7 @@ export class User extends BaseEntity {
   @Column()
   password_hash: string;
 
-  @Column({ default: 2100 })
+  @Column({ default: DefaultCalorieLimit })
   calorie_limit: number;
 
   @CreateDateColumn()
