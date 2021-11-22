@@ -46,6 +46,26 @@ AdminRouter.get("/:recordId", async (req: Request, res: Response) => {
   }
 });
 
+AdminRouter.delete("/:recordId", async (req: Request, res: Response) => {
+  const { recordId } = req.params;
+
+  try {
+    const record = await getRepository(FoodRecord).findOne({
+      where: { id: recordId },
+    });
+
+    if (!record) return res.sendStatus(404);
+
+    await getRepository(FoodRecord).remove(record);
+
+    return res.sendStatus(200);
+  } catch (err) {
+    console.error("Deleting user record failed", {
+      err,
+    });
+  }
+});
+
 AdminRouter.get("/users/list", async (req: Request, res: Response) => {
   try {
     const userList = await getRepository(User).find({
