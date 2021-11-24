@@ -48,9 +48,14 @@ const FoodDetailCard = (props) => {
         <div>
           <Link
             href={{
-              pathname: `${router.pathname}records/[recordId]`,
+              pathname: `${router.pathname}/records/[recordId]`.replace(
+                '//',
+                '/',
+              ),
               query: { ...router.query, recordId: id },
             }}
+            replace
+            shallow
           >
             <Button type="primary" size="small" icon={<InfoCircleFilled />}>
               Read More
