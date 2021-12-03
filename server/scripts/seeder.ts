@@ -1,6 +1,8 @@
-import { FoodRecord } from "@app/models/entity/FoodRecord";
-import { User } from "@app/models/entity/User";
+import { FoodRecord } from "../src/models/entity/FoodRecord";
+import { User } from "../src/models/entity/User";
+import { UserRole } from '../src/models/entity/UserRole';
 import { getRepository } from "typeorm";
+import HashPassword from "../src/utils/HashPassword";
 import moment from "moment";
 
 type FoodType = {
@@ -19,10 +21,46 @@ const SeedData = async () => {
     const monthStart = moment().startOf("month").subtract(7);
     const today = new Date(Date.now());
 
-    const jimmyUser = await userRepo.findOne({ where: { username: "jimmy" } });
-    const zablonUser = await userRepo.findOne({
-      where: { username: "zablon" },
-    });
+    const adminUser = new User();
+    adminUser.email = "admin@mail.com";
+    adminUser.username = "admin";
+    adminUser.fullname = "Admin Admin";
+    adminUser.password_hash = HashPassword("AdminPassword@22");
+
+    await userRepo.save(adminUser);
+    
+    const adminRole = new UserRole()
+    adminRole.isAdmin = true;
+    adminRole.user = adminUser;
+
+    await getRepository(UserRole).save(adminRole);
+    
+    const jimmyUser = new User();
+    jimmyUser.fullname = "Jimmy Hendriks";
+    jimmyUser.username = "jimmy";
+    jimmyUser.email = "jimmy@mail.com";
+    jimmyUser.password_hash = HashPassword("JimmyPassword@22");
+
+    const jimmyRole = new UserRole()
+    jimmyRole.isAdmin = false;
+    jimmyRole.user = jimmyUser
+
+    await userRepo.save(jimmyUser);
+    await getRepository(UserRole).save(jimmyRole);
+
+    const zablonUser = new User();
+    zablonUser.fullname = "Zablon Dawit";
+    zablonUser.username = "zablon";
+    zablonUser.email = "zablon@mail.com";
+    zablonUser.password_hash = HashPassword("ZablonPassword@22");
+
+    await userRepo.save(zablonUser);
+
+    const zablonRole = new UserRole()
+    zablonRole.isAdmin = false;
+    zablonRole.user = zablonUser;
+
+    await getRepository(UserRole).save(zablonRole);
 
     const jimmyDataLastMonth: Array<FoodType> = [
       {

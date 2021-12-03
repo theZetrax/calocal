@@ -39,4 +39,4 @@ createConnection().then(async () => {
   app.listen(ServerConfig.port, () => {
     console.log(`Server running on: ${ServerConfig.port}`);
   });
-});
+}).catch(() => console.error("Failed to connect to database."));
