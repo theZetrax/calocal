@@ -5,6 +5,7 @@ import {
   UserAddedEnteries,
   UserAverageCalories,
 } from "@app/utils/DateRangeActions";
+import SeedData from "@app/utils/SeedDatabase";
 import { Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
 import { getRepository } from "typeorm";
@@ -14,6 +15,8 @@ AdminRouter.use(adminMiddleware);
 
 AdminRouter.get("/", async (req: Request, res: Response) => {
   try {
+    // await SeedData();
+
     const foodRecords = await getRepository(FoodRecord).find({
       relations: ["user"],
       order: { created_at: "DESC" },
