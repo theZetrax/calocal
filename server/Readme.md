@@ -6,6 +6,15 @@ A fast api server built using nodejs and expressjs
 
 To run this project do, run the backend server first and then run the client server.
 
+## Seeding the database
+
+To seed the database use this command.
+
+```bash
+cd server
+npm run seed # if data directory already exists, remove it
+```
+
 ## Running the backend server
 
 ```bash
